@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -34,4 +36,8 @@ public class ProductClientDTO {
     private String accountNumber;
     private Double transactionFee;
     private String creditCardNumber;
+    private Integer billingDay;
+    private Date billingDate;
+    private Double invoiceDebt;
+    private Double expiredDebt;
 }
