@@ -5,6 +5,7 @@ import com.bootcamp.java.pasivoahorro.dto.webClientDTO.ProductResponseDTO;
 import com.bootcamp.java.pasivoahorro.service.webClients.Products.WcProductsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -22,8 +23,11 @@ import java.time.Duration;
 @Transactional
 public class WcProductsServiceImpl implements WcProductsService {
 
+    @Autowired
+    Constantes constantes;
+
     private final WebClient wcProducts = WebClient.builder()
-            .baseUrl(Constantes.WebClientUriMSProducto)
+            .baseUrl(constantes.WebClientUriMSProducto)
             .defaultCookie("cookieKey", "cookieValue")
             .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
             .build();

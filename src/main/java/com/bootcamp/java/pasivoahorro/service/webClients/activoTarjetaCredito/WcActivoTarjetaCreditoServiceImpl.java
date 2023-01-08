@@ -5,6 +5,7 @@ import com.bootcamp.java.pasivoahorro.dto.ProductClientDTO;
 import com.bootcamp.java.pasivoahorro.dto.TransactionDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -22,20 +23,23 @@ import java.time.Duration;
 @Transactional
 public class WcActivoTarjetaCreditoServiceImpl implements  WcActivoTarjetaCreditoService{
 
+    @Autowired
+    Constantes constantes;
+
     private final WebClient wcActivoTarjetaCreditoDocumentNumber = WebClient.builder()
-            .baseUrl(Constantes.WebClientUriMSActivoTarjetaCreditoDocumentNumber)
+            .baseUrl(constantes.WebClientUriMSActivoTarjetaCreditoDocumentNumber)
             .defaultCookie("cookieKey", "cookieValue")
             .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
             .build();
 
     private final WebClient wcActivoTarjetaCredito = WebClient.builder()
-            .baseUrl(Constantes.WebClientUriMSActivoTarjetaCredito)
+            .baseUrl(constantes.WebClientUriMSActivoTarjetaCredito)
             .defaultCookie("cookieKey", "cookieValue")
             .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
             .build();
 
     private final WebClient wcActivoTarjetaCreditoTrx = WebClient.builder()
-            .baseUrl(Constantes.WebClientUriMSActivoTarjetaCreditoTrx)
+            .baseUrl(constantes.WebClientUriMSActivoTarjetaCreditoTrx)
             .defaultCookie("cookieKey", "cookieValue")
             .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
             .build();
@@ -50,7 +54,7 @@ public class WcActivoTarjetaCreditoServiceImpl implements  WcActivoTarjetaCredit
                         response -> response.bodyToMono(String.class)
                                 .map(Exception::new))
                 .bodyToMono(ProductClientDTO.class)
-                .timeout(Duration.ofMillis(Constantes.TimeOutWebClients));
+                .timeout(Duration.ofMillis(constantes.TimeOutWebClients));
     }
 
     @Override
@@ -64,7 +68,7 @@ public class WcActivoTarjetaCreditoServiceImpl implements  WcActivoTarjetaCredit
                         response -> response.bodyToMono(String.class)
                                 .map(Exception::new))
                 .bodyToMono(TransactionDTO.class)
-                .timeout(Duration.ofMillis(Constantes.TimeOutWebClients));
+                .timeout(Duration.ofMillis(constantes.TimeOutWebClients));
     }
 
     @Override
@@ -76,6 +80,6 @@ public class WcActivoTarjetaCreditoServiceImpl implements  WcActivoTarjetaCredit
                         response -> response.bodyToMono(String.class)
                                 .map(Exception::new))
                 .bodyToFlux(ProductClientDTO.class)
-                .timeout(Duration.ofMillis(Constantes.TimeOutWebClients));
+                .timeout(Duration.ofMillis(constantes.TimeOutWebClients));
     }
 }

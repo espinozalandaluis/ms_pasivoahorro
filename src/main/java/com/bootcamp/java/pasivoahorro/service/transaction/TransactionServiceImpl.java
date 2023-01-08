@@ -59,6 +59,9 @@ public class TransactionServiceImpl implements TransactionService{
     @Autowired
     WcActivoTarjetaCreditoService wcActivoTarjetaCreditoService;
 
+    @Autowired
+    Constantes constantes;
+
     @Override
     public Mono<TransactionDTO> register(TransactionRequestDTO transactionRequestDTO) {
         return productClientRepository.findById(transactionRequestDTO.getIdProductClient())
@@ -66,7 +69,6 @@ public class TransactionServiceImpl implements TransactionService{
                     return transactionRepository.findTrxPerMoth(Funciones.GetFirstDayOfCurrentMonth()
                                     ,transactionRequestDTO.getIdProductClient()).collectList()
                             .flatMap(trxPerMonth -> {
-
                                 if(transactionRequestDTO.getIdTransactionType() == Constantes.TipoTrxTransferenciaEntrada
                                         || transactionRequestDTO.getIdTransactionType() == Constantes.TipoTrxPago)
                                     return Mono.error(() -> new FunctionalException("Error, tipo de transaccion no admitida"));
@@ -123,6 +125,8 @@ public class TransactionServiceImpl implements TransactionService{
                                         return Mono.error(() -> new FunctionalException("No tiene fondos suficientes para realizar la operacion"));
 
                                 log.info("DestinationIdProduct: {}",transactionRequestDTO.getDestinationIdProduct());
+
+
                                 switch (transactionRequestDTO.getDestinationIdProduct()){
                                     case 1: {
                                         log.info("Trx Pasivo Ahorro hacia otro Ahorro");
@@ -403,23 +407,17 @@ public class TransactionServiceImpl implements TransactionService{
     }
 
     @Override
-    public Flux<ProductClientTransactionDTO2> findByDocumentNumber(String documentNumber) {
+    public Flux<ProductClientReportDTO> findByDocumentNumber(String documentNumber) {
         return productClientRepository.findByDocumentNumber(documentNumber)
-                .flatMap(productocliente -> {
-                    log.info("ProductClientTransactionDTO {}", productocliente);
-
-                    return transactionRepository.findByIdProductClient(productocliente.getId())
-                            .flatMap(trx -> {
-                                return Flux.just(ProductClientTransactionDTO2.builder()
-                                        .productClientDTO(productClientConvert.EntityToDTO(productocliente))
-                                        .transactionDTO(transactionConverter.EntityToDTO(trx))
-                                        .build());
-                            });
-                })
-                .switchIfEmpty(Mono.error(() -> new FunctionalException("No se encontraron registros de productos afiliados")));
+                .flatMap(prodCli -> {
+                    var data = transactionRepository.findByIdProductClient(prodCli.getId())
+                            .collectList()
+                            .map(transactions -> ProductClientReportDTO.from(prodCli, transactions));
+                    return data;
+                }).switchIfEmpty(Mono.error(() -> new FunctionalException("No se encontraron registros de productos afiliados")));
     }
 
-    @Override
+        @Override
     public Flux<TransactionDTO> findAll() {
         log.debug("findAll executing");
         Flux<TransactionDTO> dataTransactionDTO = transactionRepository.findAll()

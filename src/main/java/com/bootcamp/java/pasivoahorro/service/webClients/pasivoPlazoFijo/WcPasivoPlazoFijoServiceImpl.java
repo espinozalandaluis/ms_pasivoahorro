@@ -5,6 +5,7 @@ import com.bootcamp.java.pasivoahorro.dto.ProductClientDTO;
 import com.bootcamp.java.pasivoahorro.dto.TransactionDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,14 +22,17 @@ import java.time.Duration;
 @Transactional
 public class WcPasivoPlazoFijoServiceImpl implements WcPasivoPlazoFijoService {
 
+    @Autowired
+    Constantes constantes;
+
     private final WebClient wcPasivoPlazoFijo = WebClient.builder()
-            .baseUrl(Constantes.WebClientUriMSPasivoPlazoFijo)
+            .baseUrl(constantes.WebClientUriMSPasivoPlazoFijo)
             .defaultCookie("cookieKey", "cookieValue")
             .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
             .build();
 
     private final WebClient wcPasivoPlazoFijoTrx = WebClient.builder()
-            .baseUrl(Constantes.WebClientUriMSPasivoPlazoFijoTrx)
+            .baseUrl(constantes.WebClientUriMSPasivoPlazoFijoTrx)
             .defaultCookie("cookieKey", "cookieValue")
             .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
             .build();
@@ -44,7 +48,7 @@ public class WcPasivoPlazoFijoServiceImpl implements WcPasivoPlazoFijoService {
                         response -> response.bodyToMono(String.class)
                                 .map(Exception::new))
                 .bodyToMono(ProductClientDTO.class)
-                .timeout(Duration.ofMillis(Constantes.TimeOutWebClients));
+                .timeout(Duration.ofMillis(constantes.TimeOutWebClients));
     }
 
     @Override
@@ -58,7 +62,7 @@ public class WcPasivoPlazoFijoServiceImpl implements WcPasivoPlazoFijoService {
                         response -> response.bodyToMono(String.class)
                                 .map(Exception::new))
                 .bodyToMono(TransactionDTO.class)
-                .timeout(Duration.ofMillis(Constantes.TimeOutWebClients));
+                .timeout(Duration.ofMillis(constantes.TimeOutWebClients));
     }
 
 }

@@ -2,10 +2,10 @@ package com.bootcamp.java.pasivoahorro.controller;
 
 import com.bootcamp.java.pasivoahorro.dto.*;
 import com.bootcamp.java.pasivoahorro.service.transaction.TransactionService;
-import com.bootcamp.java.pasivoahorro.service.transactionType.TransactionTypeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
@@ -19,6 +19,9 @@ import javax.validation.Valid;
 @RequestMapping("/v1/pasivoahorro/transaction")
 public class transactionController {
 
+    //@Value("${SERVER_GATEWAY:localhost}")
+    //private String SERVER_GATEWAY;
+
     @Autowired
     private TransactionService transactionService;
 
@@ -30,7 +33,7 @@ public class transactionController {
     }
 
     @GetMapping("/{documentNumber}")
-    public Mono<ResponseEntity<Flux<ProductClientTransactionDTO2>>> getByDocumentNumber(@PathVariable String documentNumber){
+    public Mono<ResponseEntity<Flux<ProductClientReportDTO>>> getByDocumentNumber(@PathVariable String documentNumber) {
         log.info("getByDocumentNumber executed {}", documentNumber);
         return Mono.just(ResponseEntity.ok()
                 .body(transactionService.findByDocumentNumber(documentNumber)));

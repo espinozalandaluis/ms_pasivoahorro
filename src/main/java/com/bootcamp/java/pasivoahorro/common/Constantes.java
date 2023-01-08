@@ -1,9 +1,15 @@
 package com.bootcamp.java.pasivoahorro.common;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.data.convert.Jsr310Converters;
+import org.springframework.stereotype.Component;
 
 @Slf4j
+@AllArgsConstructor
+@Component
 public class Constantes {
 
     public static final Integer ClientTypePersonal = 1;
@@ -30,12 +36,14 @@ public class Constantes {
     public static final Integer ProductoActivoTarjetaCredito = 6;
 
     //NO OBTIENE EL DATO DEL CONFIG -- REVISAR
-    @Value("${SERVER_GATEWAY:localhost}")
-    //public static final String hostGateway = "ms-gateway";
-    public static final String hostGateway = "localhost";
+    public static String hostGateway;
 
-
+    @Value("${SERVER_GATEWAY}")
+    public void setHostGateway(String SERVER_GATEWAY) {
+        Constantes.hostGateway = SERVER_GATEWAY;
+    }
     public static final long TimeOutWebClients = 10_000;
+
 
     public static final String WebClientUriMSCliente = "http://" + hostGateway + ":8080/v1/client";
     public static final String WebClientUriMSProducto = "http://" + hostGateway + ":8080/v1/product";
