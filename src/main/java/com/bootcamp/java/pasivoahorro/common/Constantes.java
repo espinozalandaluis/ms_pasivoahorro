@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 @Slf4j
 public class Constantes {
+
     public static final Integer ClientTypePersonal = 1;
     public static final Integer ClientTypePersonalVIP = 3;
     public static final Integer ProductTypePasivo = 1;
@@ -28,10 +29,11 @@ public class Constantes {
     public static final Integer ProductoActivoEmpresarial = 5;
     public static final Integer ProductoActivoTarjetaCredito = 6;
 
+    //NO OBTIENE EL DATO DEL CONFIG -- REVISAR
+    @Value("${SERVER_GATEWAY:localhost}")
+    //public static final String hostGateway = "ms-gateway";
+    public static final String hostGateway = "localhost";
 
-    @Value("${container.name.gateway:localhost}")
-    private static final String hostGateway = "ms-gateway";
-    //public static final String hostGateway = "localhost";
 
     public static final long TimeOutWebClients = 10_000;
 
