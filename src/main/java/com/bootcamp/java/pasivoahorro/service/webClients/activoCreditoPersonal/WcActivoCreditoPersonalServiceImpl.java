@@ -26,13 +26,13 @@ public class WcActivoCreditoPersonalServiceImpl implements WcActivoCreditoPerson
     Constantes constantes;
 
     private final WebClient wcActivoCreditoPersonal = WebClient.builder()
-            .baseUrl(constantes.WebClientUriMSActivoCreditoPersonal)
+            .baseUrl(constantes.webClientUriMSActivoCreditoPersonal)
             .defaultCookie("cookieKey", "cookieValue")
             .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
             .build();
 
     private final WebClient wcActivoCreditoPersonalTrx = WebClient.builder()
-            .baseUrl(constantes.WebClientUriMSActivoCreditoPersonalTrx)
+            .baseUrl(constantes.webClientUriMSActivoCreditoPersonalTrx)
             .defaultCookie("cookieKey", "cookieValue")
             .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
             .build();

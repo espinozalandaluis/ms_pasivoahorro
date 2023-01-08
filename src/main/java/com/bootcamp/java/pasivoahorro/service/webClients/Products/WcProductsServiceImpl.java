@@ -27,7 +27,7 @@ public class WcProductsServiceImpl implements WcProductsService {
     Constantes constantes;
 
     private final WebClient wcProducts = WebClient.builder()
-            .baseUrl(constantes.WebClientUriMSProducto)
+            .baseUrl(constantes.webClientUriMSProducto)
             .defaultCookie("cookieKey", "cookieValue")
             .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
             .build();

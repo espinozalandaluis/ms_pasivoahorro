@@ -26,7 +26,7 @@ public class WcClientsServiceImpl implements WcClientsService {
     @Autowired
     Constantes constantes;
     private final WebClient wcClients = WebClient.builder()
-            .baseUrl(constantes.WebClientUriMSCliente)
+            .baseUrl(constantes.webClientUriMSCliente)
             .defaultCookie("cookieKey", "cookieValue")
             .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
             .build();
@@ -57,8 +57,7 @@ public class WcClientsServiceImpl implements WcClientsService {
     @Override
     public Mono<ClientResponseDTO> findByDocumentNumber(String documentNumber) {
         log.info("findByDocumentNumber: {}",documentNumber);
-        log.info("WebClientUriMSCliente: {}",constantes.WebClientUriMSCliente);
-
+        log.info("constantes.webClientUriMSCliente: {}",constantes.webClientUriMSCliente);
 
         return wcClients.get()
                 .uri("/{documentNumber}" ,documentNumber)

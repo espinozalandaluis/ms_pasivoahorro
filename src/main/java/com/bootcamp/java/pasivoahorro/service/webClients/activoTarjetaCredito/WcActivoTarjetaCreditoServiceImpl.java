@@ -27,19 +27,19 @@ public class WcActivoTarjetaCreditoServiceImpl implements  WcActivoTarjetaCredit
     Constantes constantes;
 
     private final WebClient wcActivoTarjetaCreditoDocumentNumber = WebClient.builder()
-            .baseUrl(constantes.WebClientUriMSActivoTarjetaCreditoDocumentNumber)
+            .baseUrl(constantes.webClientUriMSActivoTarjetaCreditoDocumentNumber)
             .defaultCookie("cookieKey", "cookieValue")
             .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
             .build();
 
     private final WebClient wcActivoTarjetaCredito = WebClient.builder()
-            .baseUrl(constantes.WebClientUriMSActivoTarjetaCredito)
+            .baseUrl(constantes.webClientUriMSActivoTarjetaCredito)
             .defaultCookie("cookieKey", "cookieValue")
             .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
             .build();
 
     private final WebClient wcActivoTarjetaCreditoTrx = WebClient.builder()
-            .baseUrl(constantes.WebClientUriMSActivoTarjetaCreditoTrx)
+            .baseUrl(constantes.webClientUriMSActivoTarjetaCreditoTrx)
             .defaultCookie("cookieKey", "cookieValue")
             .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
             .build();

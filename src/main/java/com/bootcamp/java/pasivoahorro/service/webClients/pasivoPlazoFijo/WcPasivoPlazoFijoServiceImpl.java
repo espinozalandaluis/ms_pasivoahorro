@@ -26,13 +26,13 @@ public class WcPasivoPlazoFijoServiceImpl implements WcPasivoPlazoFijoService {
     Constantes constantes;
 
     private final WebClient wcPasivoPlazoFijo = WebClient.builder()
-            .baseUrl(constantes.WebClientUriMSPasivoPlazoFijo)
+            .baseUrl(constantes.webClientUriMSPasivoPlazoFijo)
             .defaultCookie("cookieKey", "cookieValue")
             .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
             .build();
 
     private final WebClient wcPasivoPlazoFijoTrx = WebClient.builder()
-            .baseUrl(constantes.WebClientUriMSPasivoPlazoFijoTrx)
+            .baseUrl(constantes.webClientUriMSPasivoPlazoFijoTrx)
             .defaultCookie("cookieKey", "cookieValue")
             .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
             .build();

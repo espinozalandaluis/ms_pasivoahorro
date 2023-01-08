@@ -26,13 +26,13 @@ public class WcActivoCreditoEmpresarialServiceImpl implements WcActivoCreditoEmp
     Constantes constantes;
 
     private final WebClient wcActivoCreditoEmpresarial = WebClient.builder()
-            .baseUrl(Constantes.WebClientUriMSActivoCreditoEmpresarial)
+            .baseUrl(Constantes.webClientUriMSActivoCreditoEmpresarial)
             .defaultCookie("cookieKey", "cookieValue")
             .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
             .build();
 
     private final WebClient wcActivoCreditoEmpresarialTrx = WebClient.builder()
-            .baseUrl(constantes.WebClientUriMSActivoCreditoEmpresarialTrx)
+            .baseUrl(constantes.webClientUriMSActivoCreditoEmpresarialTrx)
             .defaultCookie("cookieKey", "cookieValue")
             .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
             .build();
