@@ -40,7 +40,7 @@ public class WcProductsServiceImpl implements WcProductsService {
                         response -> response.bodyToMono(String.class)
                                 .map(Exception::new))
                 .bodyToFlux(ProductResponseDTO.class)
-                .timeout(Duration.ofMillis(10_000));
+                .timeout(Duration.ofMillis(constantes.TimeOutWebClients));
     }
 
     @Override
@@ -52,6 +52,6 @@ public class WcProductsServiceImpl implements WcProductsService {
                         response -> response.bodyToMono(String.class)
                                 .map(Exception::new))
                 .bodyToMono(ProductResponseDTO.class)
-                .timeout(Duration.ofMillis(10_000));
+                .timeout(Duration.ofMillis(constantes.TimeOutWebClients));
     }
 }

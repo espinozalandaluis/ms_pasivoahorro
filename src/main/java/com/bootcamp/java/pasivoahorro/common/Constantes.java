@@ -36,12 +36,15 @@ public class Constantes {
     public static final Integer ProductoActivoTarjetaCredito = 6;
 
     //NO OBTIENE EL DATO DEL CONFIG -- REVISAR
+    /*
     public static String hostGateway;
+
 
     @Value("${SERVER_GATEWAY:localhost}")
     public void setHostGateway(String SERVER_GATEWAY) {
         Constantes.hostGateway = SERVER_GATEWAY;
     }
+     */
     public static final long TimeOutWebClients = 10_000;
 
 

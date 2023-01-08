@@ -39,7 +39,7 @@ public class WcClientsServiceImpl implements WcClientsService {
                         response -> response.bodyToMono(String.class)
                                 .map(Exception::new))
                 .bodyToFlux(ClientResponseDTO.class)
-                .timeout(Duration.ofMillis(10_000));
+                .timeout(Duration.ofMillis(constantes.TimeOutWebClients));
     }
 
     @Override
@@ -51,7 +51,7 @@ public class WcClientsServiceImpl implements WcClientsService {
                         response -> response.bodyToMono(String.class)
                                 .map(Exception::new))
                 .bodyToMono(ClientResponseDTO.class)
-                .timeout(Duration.ofMillis(10_000));
+                .timeout(Duration.ofMillis(constantes.TimeOutWebClients));
     }
 
     @Override
@@ -66,7 +66,7 @@ public class WcClientsServiceImpl implements WcClientsService {
                         response -> response.bodyToMono(String.class)
                                 .map(Exception::new))
                 .bodyToMono(ClientResponseDTO.class)
-                .timeout(Duration.ofMillis(10_000));
+                .timeout(Duration.ofMillis(constantes.TimeOutWebClients));
     }
 
 }
