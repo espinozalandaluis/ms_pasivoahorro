@@ -127,8 +127,6 @@ public class ProductClientServiceImpl implements ProductClientService{
                                                                     .flatMap(productocliente -> {
 
                                                                         //Enviar mensaje por Kafka de ProductClient DTO
-                                                                        //log.info("Before productClientDTOKafka");
-                                                                        //com.bootcamp.java.kafka.ProductClientDTO productClientDTOKafka = kafkaConvert.EntityToDTOKafka(productocliente);
                                                                         kafkaProducer.sendMessageProductClient(kafkaConvert.ProductClientEntityToDTOKafka(productocliente));
                                                                         log.info("KAFKA sendMessageProductClient");
 
@@ -142,8 +140,8 @@ public class ProductClientServiceImpl implements ProductClientService{
                                                                                     .flatMap(trx -> {
 
                                                                                         //Enviar mensaje por Kafka de Transaction DTO
-                                                                                        com.bootcamp.java.kafka.TransactionDTO transactionDTOKafka = kafkaConvert.TransactionEntityToDTOKafka(trx);
-                                                                                        kafkaProducer.sendMessageTransaction(transactionDTOKafka);
+                                                                                        kafkaProducer.sendMessageTransaction(kafkaConvert.TransactionEntityToDTOKafka(trx));
+                                                                                        log.info("KAFKA sendMessageTransaction");
 
                                                                                         log.info("Resultado de guardar Transactions: {}",trx.toString());
                                                                                         return Mono.just(ProductClientTransactionDTO.builder()

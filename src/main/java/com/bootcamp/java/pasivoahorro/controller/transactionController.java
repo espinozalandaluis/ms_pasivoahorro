@@ -19,9 +19,6 @@ import javax.validation.Valid;
 @RequestMapping("/v1/pasivoahorro/transaction")
 public class transactionController {
 
-    //@Value("${SERVER_GATEWAY:localhost}")
-    //private String SERVER_GATEWAY;
-
     @Autowired
     private TransactionService transactionService;
 

@@ -6,9 +6,6 @@ import reactor.core.publisher.Mono;
 
 public interface TransactionService {
 
-    //public Mono<TransactionDTO> registerTrx(TransactionDTO transactionDTO);
-
-    //public Mono<TransactionDTO> register(TransactionRequestDTO transactionRequestDTO, String SERVER_GATEWAY);
     public Mono<TransactionDTO> register(TransactionRequestDTO transactionRequestDTO);
 
     public Mono<TransactionDTO> registerTrxEntradaExterna(TransactionDTO transactionDTO,

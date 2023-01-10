@@ -3,11 +3,13 @@ package com.bootcamp.java.pasivoahorro.service.transaction;
 import com.bootcamp.java.pasivoahorro.common.Constantes;
 import com.bootcamp.java.pasivoahorro.common.Funciones;
 import com.bootcamp.java.pasivoahorro.common.exceptionHandler.FunctionalException;
+import com.bootcamp.java.pasivoahorro.converter.KafkaConvert;
 import com.bootcamp.java.pasivoahorro.converter.ProductClientConvert;
 import com.bootcamp.java.pasivoahorro.converter.TransactionConvert;
 import com.bootcamp.java.pasivoahorro.dto.*;
 import com.bootcamp.java.pasivoahorro.entity.ProductClient;
 import com.bootcamp.java.pasivoahorro.entity.Transaction;
+import com.bootcamp.java.pasivoahorro.kafka.KafkaProducer;
 import com.bootcamp.java.pasivoahorro.repository.ProductClientRepository;
 import com.bootcamp.java.pasivoahorro.repository.TransactionRepository;
 import com.bootcamp.java.pasivoahorro.service.webClients.activoCreditoEmpresarial.WcActivoCreditoEmpresarialService;
@@ -31,6 +33,12 @@ import java.math.RoundingMode;
 @RequiredArgsConstructor
 @Transactional
 public class TransactionServiceImpl implements TransactionService{
+
+    @Autowired
+    KafkaProducer kafkaProducer;
+
+    @Autowired
+    KafkaConvert kafkaConvert;
 
     @Autowired
     private TransactionRepository transactionRepository;
@@ -111,9 +119,18 @@ public class TransactionServiceImpl implements TransactionService{
                                                         trx.getIdTransactionType(),
                                                         trx.getTransactionFee()));
 
+                                                //KAFKA Transaction
+                                                kafkaProducer.sendMessageTransaction(kafkaConvert.TransactionEntityToDTOKafka(trx));
+                                                log.info("KAFKA sendMessageTransaction");
+
                                                 return productClientRepository.save(prodclient)
                                                         .flatMap(x-> {
                                                             log.info("Actualizado el balance");
+
+                                                            //KAFKA ActualizarSaldo ProductClient
+                                                            kafkaProducer.sendMessageProductClient(kafkaConvert.ProductClientEntityToDTOKafka(x));
+                                                            log.info("KAFKA sendMessageProductClient");
+
                                                             return transactionRepository.findById(t.getId())
                                                                     .map(TransactionConvert::EntityToDTO);
                                                         });
@@ -152,9 +169,18 @@ public class TransactionServiceImpl implements TransactionService{
                                                                             trx.getIdTransactionType(),
                                                                             trx.getTransactionFee()));
 
+                                                                    //KAFKA Transaction
+                                                                    kafkaProducer.sendMessageTransaction(kafkaConvert.TransactionEntityToDTOKafka(trx));
+                                                                    log.info("KAFKA sendMessageTransaction");
+
                                                                     return productClientRepository.save(prodclient)
                                                                             .flatMap(x-> {
                                                                                 log.info("Actualizado el balance");
+
+                                                                                //KAFKA ActualizarSaldo ProductClient
+                                                                                kafkaProducer.sendMessageProductClient(kafkaConvert.ProductClientEntityToDTOKafka(x));
+                                                                                log.info("KAFKA sendMessageProductClient");
+
                                                                                 //AQUI AGREGAR LLAMADO AL API DE TRX
                                                                                 return registerTrxEntrada(xy,trx)
                                                                                         .flatMap(xyz -> {
@@ -191,9 +217,17 @@ public class TransactionServiceImpl implements TransactionService{
                                                                         trx.getIdTransactionType(),
                                                                         trx.getTransactionFee()));
 
+                                                                //KAFKA Transaction
+                                                                kafkaProducer.sendMessageTransaction(kafkaConvert.TransactionEntityToDTOKafka(trx));
+                                                                log.info("KAFKA sendMessageTransaction");
+
                                                                 return productClientRepository.save(prodclient)
                                                                         .flatMap(x-> {
                                                                             log.info("Actualizado el balance");
+                                                                            //KAFKA ActualizarSaldo ProductClient
+                                                                            kafkaProducer.sendMessageProductClient(kafkaConvert.ProductClientEntityToDTOKafka(x));
+                                                                            log.info("KAFKA sendMessageProductClient");
+
                                                                             //AQUI AGREGAR LLAMADO AL API DE TRX
                                                                             return wcPasivoCuentaCorrienteService.registerTrxEntradaExterna(transactionConverter.EntityToDTO(trx),
                                                                                     xy.getId())
@@ -228,9 +262,19 @@ public class TransactionServiceImpl implements TransactionService{
                                                                         trx.getIdTransactionType(),
                                                                         trx.getTransactionFee()));
 
+                                                                //KAFKA Transaction
+                                                                kafkaProducer.sendMessageTransaction(kafkaConvert.TransactionEntityToDTOKafka(trx));
+                                                                log.info("KAFKA sendMessageTransaction");
+
+
                                                                 return productClientRepository.save(prodclient)
                                                                         .flatMap(x-> {
                                                                             log.info("Actualizado el balance");
+
+                                                                            //KAFKA ActualizarSaldo ProductClient
+                                                                            kafkaProducer.sendMessageProductClient(kafkaConvert.ProductClientEntityToDTOKafka(x));
+                                                                            log.info("KAFKA sendMessageProductClient");
+
                                                                             //AQUI AGREGAR LLAMADO AL API DE TRX
                                                                             return wcPasivoPlazoFijoService.registerTrxEntradaExterna(transactionConverter.EntityToDTO(trx),
                                                                                             xy.getId())
@@ -265,9 +309,18 @@ public class TransactionServiceImpl implements TransactionService{
                                                                         trx.getIdTransactionType(),
                                                                         trx.getTransactionFee()));
 
+                                                                //KAFKA Transaction
+                                                                kafkaProducer.sendMessageTransaction(kafkaConvert.TransactionEntityToDTOKafka(trx));
+                                                                log.info("KAFKA sendMessageTransaction");
+
                                                                 return productClientRepository.save(prodclient)
                                                                         .flatMap(x-> {
                                                                             log.info("Actualizado el balance");
+
+                                                                            //KAFKA ActualizarSaldo ProductClient
+                                                                            kafkaProducer.sendMessageProductClient(kafkaConvert.ProductClientEntityToDTOKafka(x));
+                                                                            log.info("KAFKA sendMessageProductClient");
+
                                                                             //AQUI AGREGAR LLAMADO AL API DE TRX
                                                                             return wcActivoCreditoPersonalService.registerTrxEntradaExterna(transactionConverter.EntityToDTO(trx),
                                                                                             xy.getId())
@@ -302,9 +355,18 @@ public class TransactionServiceImpl implements TransactionService{
                                                                         trx.getIdTransactionType(),
                                                                         trx.getTransactionFee()));
 
+                                                                //KAFKA Transaction
+                                                                kafkaProducer.sendMessageTransaction(kafkaConvert.TransactionEntityToDTOKafka(trx));
+                                                                log.info("KAFKA sendMessageTransaction");
+
                                                                 return productClientRepository.save(prodclient)
                                                                         .flatMap(x-> {
                                                                             log.info("Actualizado el balance");
+
+                                                                            //KAFKA ActualizarSaldo ProductClient
+                                                                            kafkaProducer.sendMessageProductClient(kafkaConvert.ProductClientEntityToDTOKafka(x));
+                                                                            log.info("KAFKA sendMessageProductClient");
+
                                                                             //AQUI AGREGAR LLAMADO AL API DE TRX
                                                                             return wcActivoCreditoEmpresarialService.registerTrxEntradaExterna(transactionConverter.EntityToDTO(trx),
                                                                                             xy.getId())
@@ -339,9 +401,18 @@ public class TransactionServiceImpl implements TransactionService{
                                                                         trx.getIdTransactionType(),
                                                                         trx.getTransactionFee()));
 
+                                                                //KAFKA Transaction
+                                                                kafkaProducer.sendMessageTransaction(kafkaConvert.TransactionEntityToDTOKafka(trx));
+                                                                log.info("KAFKA sendMessageTransaction");
+
                                                                 return productClientRepository.save(prodclient)
                                                                         .flatMap(x-> {
                                                                             log.info("Actualizado el balance");
+
+                                                                            //KAFKA ActualizarSaldo ProductClient
+                                                                            kafkaProducer.sendMessageProductClient(kafkaConvert.ProductClientEntityToDTOKafka(x));
+                                                                            log.info("KAFKA sendMessageProductClient");
+
                                                                             //AQUI AGREGAR LLAMADO AL API DE TRX
                                                                             return wcActivoTarjetaCreditoService.registerTrxEntradaExterna(transactionConverter.EntityToDTO(trx),
                                                                                             xy.getId())
@@ -369,6 +440,11 @@ public class TransactionServiceImpl implements TransactionService{
 
         return transactionRepository.save(transactionConverter.DTOtoEntity(transactionDTO))
                 .flatMap(trx -> {
+
+                    //KAFKA Transaction
+                    kafkaProducer.sendMessageTransaction(kafkaConvert.TransactionEntityToDTOKafka(trx));
+                    log.info("KAFKA sendMessageTransaction");
+
                     return productClientRepository.findById(IdProductClient)
                             .flatMap(productClient -> {
                                 productClient.setBalance(CalculateBalance(productClient.getBalance(),
@@ -377,6 +453,11 @@ public class TransactionServiceImpl implements TransactionService{
 
                                 return productClientRepository.save(productClient)
                                         .flatMap(prdcli -> {
+
+                                            //KAFKA ActualizarSaldo ProductClient
+                                            kafkaProducer.sendMessageProductClient(kafkaConvert.ProductClientEntityToDTOKafka(prdcli));
+                                            log.info("KAFKA sendMessageProductClient");
+
                                             return Mono.just(transactionConverter.EntityToDTO(trx));
                                         });
                             })
@@ -399,8 +480,18 @@ public class TransactionServiceImpl implements TransactionService{
                             transactionOrigen.getMont(),
                             transactionOrigen.getIdTransactionType(),
                             transactionOrigen.getTransactionFee()));
+
+                    //KAFKA Transaction
+                    kafkaProducer.sendMessageTransaction(kafkaConvert.TransactionEntityToDTOKafka(x));
+                    log.info("KAFKA sendMessageTransaction");
+
                     return productClientRepository.save(productClient)
                             .flatMap(pc -> {
+
+                                //KAFKA ActualizarSaldo ProductClient
+                                kafkaProducer.sendMessageProductClient(kafkaConvert.ProductClientEntityToDTOKafka(pc));
+                                log.info("KAFKA sendMessageProductClient");
+
                                 return Mono.just(transactionConverter.EntityToDTO(x));
                             });
                 });
