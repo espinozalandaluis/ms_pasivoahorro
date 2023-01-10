@@ -1,7 +1,7 @@
 package com.bootcamp.java.pasivoahorro.controller;
 
 import com.bootcamp.java.kafka.ProductClientDTO;
-import com.bootcamp.java.pasivoahorro.kafka.JsonKafkaProducer;
+import com.bootcamp.java.pasivoahorro.kafka.KafkaProducer;
 import com.bootcamp.java.kafka.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/kafka")
 public class KafkaController {
 
-    private JsonKafkaProducer kafkaProducer;
+    private KafkaProducer kafkaProducer;
 
-    public KafkaController(JsonKafkaProducer kafkaProducer) {
+    public KafkaController(KafkaProducer kafkaProducer) {
         this.kafkaProducer = kafkaProducer;
     }
 

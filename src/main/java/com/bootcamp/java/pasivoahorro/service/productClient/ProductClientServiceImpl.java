@@ -2,6 +2,7 @@ package com.bootcamp.java.pasivoahorro.service.productClient;
 
 import com.bootcamp.java.pasivoahorro.common.Constantes;
 import com.bootcamp.java.pasivoahorro.common.exceptionHandler.FunctionalException;
+import com.bootcamp.java.pasivoahorro.converter.KafkaConvert;
 import com.bootcamp.java.pasivoahorro.converter.ProductClientConvert;
 import com.bootcamp.java.pasivoahorro.converter.TransactionConvert;
 import com.bootcamp.java.pasivoahorro.dto.ProductClientDTO;
@@ -9,6 +10,7 @@ import com.bootcamp.java.pasivoahorro.dto.ProductClientRequest;
 import com.bootcamp.java.pasivoahorro.dto.ProductClientTransactionDTO;
 import com.bootcamp.java.pasivoahorro.entity.ProductClient;
 import com.bootcamp.java.pasivoahorro.entity.Transaction;
+import com.bootcamp.java.pasivoahorro.kafka.KafkaProducer;
 import com.bootcamp.java.pasivoahorro.repository.ProductClientRepository;
 import com.bootcamp.java.pasivoahorro.repository.TransactionRepository;
 import com.bootcamp.java.pasivoahorro.service.transaction.TransactionService;
@@ -28,6 +30,13 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 @Transactional
 public class ProductClientServiceImpl implements ProductClientService{
+
+
+    @Autowired
+    KafkaProducer kafkaProducer;
+
+    @Autowired
+    KafkaConvert kafkaConvert;
 
     @Autowired
     private ProductClientRepository productClientRepository;
@@ -118,6 +127,10 @@ public class ProductClientServiceImpl implements ProductClientService{
                                                                     .flatMap(productocliente -> {
 
                                                                         //Enviar mensaje por Kafka de ProductClient DTO
+                                                                        //log.info("Before productClientDTOKafka");
+                                                                        //com.bootcamp.java.kafka.ProductClientDTO productClientDTOKafka = kafkaConvert.EntityToDTOKafka(productocliente);
+                                                                        kafkaProducer.sendMessageProductClient(kafkaConvert.ProductClientEntityToDTOKafka(productocliente));
+                                                                        log.info("KAFKA sendMessageProductClient");
 
                                                                         log.info("Resultado de guardar ProductClient: {}",productocliente.toString());
                                                                         if(productClientRequest.getDepositAmount() > 0){
@@ -129,6 +142,8 @@ public class ProductClientServiceImpl implements ProductClientService{
                                                                                     .flatMap(trx -> {
 
                                                                                         //Enviar mensaje por Kafka de Transaction DTO
+                                                                                        com.bootcamp.java.kafka.TransactionDTO transactionDTOKafka = kafkaConvert.TransactionEntityToDTOKafka(trx);
+                                                                                        kafkaProducer.sendMessageTransaction(transactionDTOKafka);
 
                                                                                         log.info("Resultado de guardar Transactions: {}",trx.toString());
                                                                                         return Mono.just(ProductClientTransactionDTO.builder()

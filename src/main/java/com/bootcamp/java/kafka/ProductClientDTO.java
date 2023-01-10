@@ -12,6 +12,9 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductClientDTO {
+
+
+
     private String id;
     private Integer idProduct;
     private String productDescription;
