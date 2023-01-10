@@ -15,10 +15,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class KafkaProducer {
 
-    @Value("${spring.kafka.topic-transaction.name}")
+    @Value("${spring.kafka.topic-transaction.name:my_topic_productclient}")
     private String topicTransaction;
 
-    @Value("${spring.kafka.topic.productclient.name}")
+    @Value("${spring.kafka.topic.productclient.name:my_topic_transaction}")
     private String topicProductClientDTO;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(KafkaProducer.class);
