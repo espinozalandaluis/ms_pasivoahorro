@@ -116,6 +116,9 @@ public class ProductClientServiceImpl implements ProductClientService{
 
                                                             return productClientRepository.save(prdCli)
                                                                     .flatMap(productocliente -> {
+
+                                                                        //Enviar mensaje por Kafka de ProductClient DTO
+
                                                                         log.info("Resultado de guardar ProductClient: {}",productocliente.toString());
                                                                         if(productClientRequest.getDepositAmount() > 0){
                                                                             //prdCli.setTransactionFee(0.00); //Por primera transaccion no se cobra Comision
@@ -124,6 +127,8 @@ public class ProductClientServiceImpl implements ProductClientService{
                                                                             trxEntity.setTransactionFee(0.0);
                                                                             return transactionRepository.save(trxEntity)
                                                                                     .flatMap(trx -> {
+
+                                                                                        //Enviar mensaje por Kafka de Transaction DTO
 
                                                                                         log.info("Resultado de guardar Transactions: {}",trx.toString());
                                                                                         return Mono.just(ProductClientTransactionDTO.builder()
