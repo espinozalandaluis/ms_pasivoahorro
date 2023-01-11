@@ -2,12 +2,17 @@ package com.bootcamp.java.pasivoahorro.converter;
 
 import com.bootcamp.java.pasivoahorro.entity.ProductClient;
 import com.bootcamp.java.pasivoahorro.entity.Transaction;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 public class KafkaConvert {
 
     public static com.bootcamp.java.kafka.ProductClientDTO ProductClientEntityToDTOKafka(ProductClient productClient) {
+
+        log.info("ProductClientEntityToDTOKafka ProductClient: {}", productClient.toString());
+
         return com.bootcamp.java.kafka.ProductClientDTO.builder()
                 .id(productClient.getId())
                 .idProduct(productClient.getIdProduct())

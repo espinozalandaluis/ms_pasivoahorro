@@ -126,6 +126,8 @@ public class ProductClientServiceImpl implements ProductClientService{
                                                             return productClientRepository.save(prdCli)
                                                                     .flatMap(productocliente -> {
 
+                                                                        com.bootcamp.java.kafka.ProductClientDTO prdKafka = kafkaConvert.ProductClientEntityToDTOKafka(productocliente);
+                                                                        log.info("OBJECTO PRODCLI KAFKA: {}",prdKafka.toString());
                                                                         //Enviar mensaje por Kafka de ProductClient DTO
                                                                         kafkaProducer.sendMessageProductClient(kafkaConvert.ProductClientEntityToDTOKafka(productocliente));
                                                                         log.info("KAFKA sendMessageProductClient");

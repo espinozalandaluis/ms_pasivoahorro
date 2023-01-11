@@ -508,7 +508,7 @@ public class TransactionServiceImpl implements TransactionService{
                 }).switchIfEmpty(Mono.error(() -> new FunctionalException("No se encontraron registros de productos afiliados")));
     }
 
-        @Override
+    @Override
     public Flux<TransactionDTO> findAll() {
         log.debug("findAll executing");
         Flux<TransactionDTO> dataTransactionDTO = transactionRepository.findAll()
