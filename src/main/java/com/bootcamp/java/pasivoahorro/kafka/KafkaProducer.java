@@ -23,10 +23,10 @@ public class KafkaProducer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(KafkaProducer.class);
 
-    private KafkaTemplate<String, User> kafkaTemplateTransaction;
+    private KafkaTemplate<String, TransactionDTO> kafkaTemplateTransaction;
     private KafkaTemplate<String, ProductClientDTO> kafkaTemplateProductClientDTO;
 
-    public KafkaProducer(KafkaTemplate<String, User> kafkaTemplateTransaction,
+    public KafkaProducer(KafkaTemplate<String, TransactionDTO> kafkaTemplateTransaction,
                          KafkaTemplate<String, ProductClientDTO> kafkaTemplateProductClientDTO) {
         this.kafkaTemplateTransaction = kafkaTemplateTransaction;
         this.kafkaTemplateProductClientDTO = kafkaTemplateProductClientDTO;
@@ -41,7 +41,9 @@ public class KafkaProducer {
                 .setHeader(KafkaHeaders.TOPIC, topicTransaction)
                 .build();
 
-        kafkaTemplateTransaction.send(message);
+        //kafkaTemplateTransaction.send(message);
+
+        //kafkaTemplateProductClientDTO.sendDefault(message)
 
     }
 
@@ -54,7 +56,10 @@ public class KafkaProducer {
                 .setHeader(KafkaHeaders.TOPIC, topicProductClientDTO)
                 .build();
 
-        kafkaTemplateTransaction.send(message);
+        //kafkaTemplateTransaction.send(message);
+        kafkaTemplateProductClientDTO.send(message);
+
+        LOGGER.info(String.format("Productclient Message ENVIADO"));
 
     }
 
@@ -68,6 +73,8 @@ public class KafkaProducer {
                 .build();
 
         kafkaTemplateTransaction.send(message);
+
+        LOGGER.info(String.format("TransactionDTO Message ENVIADO"));
 
     }
 }
