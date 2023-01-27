@@ -15,20 +15,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class KafkaProducer {
 
-<<<<<<< HEAD
-
     @Value("${spring.kafka.topic.productclient.name:my_topic_productclient}")
     private String topicProductclient;
 
     @Value("${spring.kafka.topic.transaction.name:my_topic_transaction}")
     private String topicTransaction;
-=======
-    @Value("${spring.kafka.topic.transaction.name:my_topic_transaction}")
-    private String topicTransaction;
-
-    @Value("${spring.kafka.topic.productclient.name:my_topic_productclient}")
-    private String topicProductClientDTO;
->>>>>>> 789436ffd49cac65d392e096d4be101316556c57
 
     private static final Logger LOGGER = LoggerFactory.getLogger(KafkaProducer.class);
 
