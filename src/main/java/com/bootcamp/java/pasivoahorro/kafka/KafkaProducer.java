@@ -15,11 +15,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class KafkaProducer {
 
-    @Value("${spring.kafka.topic-transaction.name:my_topic_productclient}")
-    private String topicTransaction;
 
-    @Value("${spring.kafka.topic.productclient.name:my_topic_transaction}")
-    private String topicProductClientDTO;
+    @Value("${spring.kafka.topic.productclient.name:my_topic_productclient}")
+    private String topicProductclient;
+
+    @Value("${spring.kafka.topic.transaction.name:my_topic_transaction}")
+    private String topicTransaction;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(KafkaProducer.class);
 
@@ -53,7 +54,7 @@ public class KafkaProducer {
 
         Message<ProductClientDTO> message = MessageBuilder
                 .withPayload(data)
-                .setHeader(KafkaHeaders.TOPIC, topicProductClientDTO)
+                .setHeader(KafkaHeaders.TOPIC, topicProductclient)
                 .build();
 
         //kafkaTemplateTransaction.send(message);
