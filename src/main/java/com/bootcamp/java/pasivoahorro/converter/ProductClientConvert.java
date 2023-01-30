@@ -1,6 +1,7 @@
 package com.bootcamp.java.pasivoahorro.converter;
 
 import com.bootcamp.java.pasivoahorro.common.Constantes;
+import com.bootcamp.java.pasivoahorro.common.Funciones;
 import com.bootcamp.java.pasivoahorro.dto.ProductClientDTO;
 import com.bootcamp.java.pasivoahorro.dto.ProductClientRequest;
 import com.bootcamp.java.pasivoahorro.dto.webClientDTO.ClientResponseDTO;
@@ -70,6 +71,7 @@ public class ProductClientConvert {
                 .accountNumber(productClientRequest.getAccountNumber())
                 .transactionFee(productResponseDTO.getTransactionFee())
                 //.creditCardNumber(productClient.getCreditCardNumber())
+                .registerDate(Funciones.GetCurrentDate())
                 .build();
     }
 
@@ -98,6 +100,7 @@ public class ProductClientConvert {
                 .accountNumber(productClientDTO.getAccountNumber())
                 .transactionFee(productClientDTO.getTransactionFee())
                 .creditCardNumber(productClientDTO.getCreditCardNumber())
+                .registerDate(Funciones.GetCurrentDate())
                 .build();
     }
 

@@ -88,7 +88,7 @@ public class ProductClient {
     private Double transactionFee;
 
     @NotNull
-    @Indexed(unique = true)
+    //@Indexed(unique = true)
     private String creditCardNumber;
 
     @NotNull
@@ -102,5 +102,8 @@ public class ProductClient {
 
     @NotNull
     private Double expiredDebt;
+
+    @NotNull
+    private Date registerDate;
 
 }

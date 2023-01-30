@@ -1,5 +1,6 @@
 package com.bootcamp.java.pasivoahorro.converter;
 
+import com.bootcamp.java.pasivoahorro.common.Funciones;
 import com.bootcamp.java.pasivoahorro.entity.ProductClient;
 import com.bootcamp.java.pasivoahorro.entity.Transaction;
 import lombok.extern.slf4j.Slf4j;
@@ -42,6 +43,7 @@ public class KafkaConvert {
                 .billingDate(productClient.getBillingDate())
                 .invoiceDebt(productClient.getInvoiceDebt())
                 .expiredDebt(productClient.getExpiredDebt())
+                .registerDate(Funciones.GetCurrentDate())
                 .build();
     }
 
